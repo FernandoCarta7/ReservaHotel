@@ -20,4 +20,15 @@ public class Huesped extends Persona {
     public void setVIP(boolean VIP) {
         isVIP = VIP;
     }
+
+    @Override
+    public String toString() {
+        return "Huesped{" +
+                "isVIP=" + isVIP +
+                ", numeroIdentificacion='" + numeroIdentificacion + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", correo='" + correo + '\'' +
+                '}';
+    }
 }
