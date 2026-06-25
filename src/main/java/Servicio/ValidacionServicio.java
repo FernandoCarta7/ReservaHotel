@@ -68,5 +68,19 @@ public class ValidacionServicio {
         return correo.toLowerCase();
     }
 
+    public double validarSalario(){
 
+        String salarioString = "";
+
+        do {
+            System.out.println("Ingrese un salario valido \n");
+
+
+        } while ( ! ( salarioString != null
+                && salarioString.matches("-?\\d+(\\.\\d+)?")
+                )
+            );
+
+        return Double.parseDouble(salarioString);
+    }
 }
