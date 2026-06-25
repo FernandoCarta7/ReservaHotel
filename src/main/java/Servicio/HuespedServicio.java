@@ -117,6 +117,25 @@ public class HuespedServicio {
         return null; // No encontrado
     }
 
+    public Huesped actualizarHuesped ( Huesped huespedActualizar ){
+        String numeroIdentificacion = huespedActualizar.getNumeroIdentificacion();
+        System.out.println("Actualizar candidato con documento: " + numeroIdentificacion);
+
+        String nombreCompleto = validacionServicio.validarNombre();
+
+        String telefono = validacionServicio.validarTelefono();
+
+        String correo = validacionServicio.validarCorreo();
+
+        huespedActualizar = new Huesped(
+                numeroIdentificacion,
+                nombreCompleto,
+                telefono,
+                correo,
+                false);
+
+        return huespedActualizar;
+    }
 
 
 }
