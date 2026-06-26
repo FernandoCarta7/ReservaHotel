@@ -2,15 +2,34 @@ package entidades;
 
 public class Habitacion {
 
-    private short numeroHabitacion;
+    private short numeroHabitacion = 1;
     private String tipo; //SENCILLA, DOBLE, SUITE
     private double precioNoche;
     private boolean estaDisponible;
+    private final double precioSencilla = 75900.00;
+    private final double precioDoble = 124500.00;
+    private final double precioSuite = 318700.00;
 
-    public Habitacion(short numeroHabitacion, String tipo, double precioNoche, boolean estaDisponible) {
-        this.numeroHabitacion = numeroHabitacion;
+
+    public Habitacion( String tipo, boolean estaDisponible) {
+        this.numeroHabitacion = (short) (this.numeroHabitacion + 1);
         this.tipo = tipo;
-        this.precioNoche = precioNoche;
+
+        switch ( tipo ) {
+
+            case "SENCILLA" :
+                this.precioNoche = precioSencilla;
+                break;
+
+            case "DOBLE" :
+                this.precioNoche = precioDoble;
+                break;
+            case "SUITE" :
+                this.precioNoche = precioSuite;
+                break;
+        }
+
+
         this.estaDisponible = estaDisponible;
     }
 
@@ -44,5 +63,15 @@ public class Habitacion {
 
     public void setEstaDisponible(boolean estaDisponible) {
         this.estaDisponible = estaDisponible;
+    }
+
+    @Override
+    public String toString() {
+        return "Habitacion{" +
+                "numeroHabitacion=" + numeroHabitacion +
+                ", tipo='" + tipo + '\'' +
+                ", precioNoche=" + precioNoche +
+                ", estaDisponible=" + estaDisponible +
+                '}';
     }
 }

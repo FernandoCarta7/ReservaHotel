@@ -83,4 +83,23 @@ public class ValidacionServicio {
 
         return Double.parseDouble(salarioString);
     }
+
+    public String validarTipoHabitacion(){
+        String [] tipoDeHabitacion = {"Sencilla","Doble","Suite"};
+        int posicion = -1;
+
+        do {
+            System.out.println("Seleccione el tipo de habitacion: ");
+
+            for (int i = 0; i < tipoDeHabitacion.length; i++) {
+                System.out.println( "\t " +  (i + 1) + "\t" + tipoDeHabitacion[i] );
+            }
+            posicion = scanner.nextInt();
+
+
+        }while (posicion < 0 || posicion > tipoDeHabitacion.length);
+
+
+        return tipoDeHabitacion[posicion - 1].toUpperCase();
+    }
 }

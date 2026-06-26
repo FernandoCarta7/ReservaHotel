@@ -1,11 +1,13 @@
 import Servicio.EmpleadoServicio;
+import Servicio.HabitacionServicio;
 import Servicio.HuespedServicio;
 import entidades.Empleado;
+import entidades.Habitacion;
 import entidades.Huesped;
 
 public static void main() {
 
-    //--------------------HUESPEDES--------------------
+    //----------------------------------------HUESPEDES----------------------------------------
     HuespedServicio huespedServicio = new HuespedServicio();
     //Huesped huesped = huespedServicio.crearHuesped();
     Huesped[] huespedes = {
@@ -16,9 +18,9 @@ public static void main() {
             new Huesped("7263489123", "Samantha Smith", "3013001111", "Samantha@test.com", false),
             new Huesped("6712349173", "Fernando Carta", "3001234567", "Fernando@test.com", true)
     };
-    //--------------------EMPLEADOS--------------------
-    EmpleadoServicio empleadoServicio = new EmpleadoServicio();
-    Empleado [] empleados = {
+    //----------------------------------------EMPLEADOS----------------------------------------
+    //EmpleadoServicio empleadoServicio = new EmpleadoServicio();
+    /*Empleado [] empleados = {
             new Empleado("1234561234", "Fernando Carta", "3001234567", "fernandocarta@correo.com", "ADMINISTRADOR",7000000),
             new Empleado("1234561664", "Camila Perez", "3001233367", "camilaperez@correo.com", "CONSERJE",3000000),
             new Empleado("1234561774", "Juana de Arco", "3001222567", "juanaarco@correo.com", "RECEPCIONISTA",3500000)
@@ -26,7 +28,14 @@ public static void main() {
     };
 
     empleadoServicio.quickSortEmpleadoes(empleados,0, empleados.length - 1 );
-    Empleado empleado = empleadoServicio.buscarPorDocumento(empleados,"1234561234");
+    Empleado empleado = empleadoServicio.buscarPorDocumento(empleados,"1234561234");*/
+
+
+    //----------------------------------------HABITACIONES----------------------------------------
+    HabitacionServicio habitacionServicio = new HabitacionServicio();
+    Habitacion habitacion = habitacionServicio.crearHabitacion();
+    System.out.println(habitacion.toString());
+
 
 }
 
