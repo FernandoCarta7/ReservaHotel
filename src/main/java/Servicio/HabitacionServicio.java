@@ -1,8 +1,10 @@
 package Servicio;
 
+import entidades.Empleado;
 import entidades.Habitacion;
 
 import java.util.Scanner;
+import java.util.Vector;
 
 public class HabitacionServicio {
 
@@ -28,10 +30,10 @@ public class HabitacionServicio {
 
 
     //Imprimir listado de huspedes
-    public void imprimirHabitacion(Habitacion [] habitacions){
+    public void imprimirHabitacion(Vector<Habitacion> habitaciones){
         try {
-            for (int i = 0; i < habitacions.length; i++) {
-                System.out.println(habitacions[i].toString());
+            for (Habitacion habitacion : habitaciones) {
+                System.out.println(habitacion.toString());
             }
         } catch (NullPointerException e) {
             System.out.println(e);
@@ -39,42 +41,26 @@ public class HabitacionServicio {
     }
 
 
-    /*
-     *
-     * ORDENAMIENTO DE HABITACIONES POR TIPO DE HABITACION
-     *
-     * */
+    public Habitacion buscarPorNumero(Vector <Habitacion> habitaciones, short numeroHabitacion) {
 
-    public void quickSortHabitaciones(Habitacion[] habitacions, int inicio, int fin) {
-        if (inicio < fin) {
-            int pivote = particionPorDocumento(habitacions, inicio, fin);
+        int izquierda = 0;
+        int derecha = habitaciones.size() - 1;
+        short comparacion;
+        while (izquierda <= derecha) {
+            int medio = izquierda + (derecha - izquierda) / 2;
 
-            quickSortHabitaciones(habitacions, inicio, pivote - 1);
-            quickSortHabitaciones(habitacions, pivote + 1, fin);
-        }
-    }
+            comparacion = habitaciones.get(medio).getNumeroHabitacion();
 
-    private int particionPorDocumento(Habitacion[] habitacions, int inicio, int fin) {
-        String pivote = habitacions[fin].getTipo();
-        int i = inicio - 1;
-
-        for (int j = inicio; j < fin; j++) {
-            if (habitacions[j].getTipo().compareTo(pivote) <= 0) {
-                i++;
-                intercambiar(habitacions, i, j);
+            if (comparacion == numeroHabitacion) {
+                return habitaciones.get(medio);
+            } else if (comparacion < 0) {
+                izquierda = medio + 1;
+            } else {
+                derecha = medio - 1;
             }
         }
 
-        intercambiar(habitacions, i + 1, fin);
-        return i + 1;
+        return null; // No encontrado
     }
-
-    private void intercambiar(Habitacion[] habitacions, int i, int j) {
-        Habitacion temp = habitacions[i];
-        habitacions[i] = habitacions[j];
-        habitacions[j] = temp;
-    }
-
-
     
 }

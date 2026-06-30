@@ -1,18 +1,20 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class Reserva {
 
     private String codigoReserva;
-    private Huesped [] huespedes;
+    private String [] idHuespedes;
     private Habitacion habitacion;
     private LocalDate fechaIngreso;
     private int cantidadNoches;
 
-    public Reserva(String codigoReserva, Huesped[] huespedes, Habitacion habitacion, LocalDate fechaIngreso, int cantidadNoches) {
+
+    public Reserva(String codigoReserva, String[] idHuespedes, Habitacion habitacion, LocalDate fechaIngreso, int cantidadNoches) {
         this.codigoReserva = codigoReserva;
-        this.huespedes = huespedes;
+        this.idHuespedes = idHuespedes;
         this.habitacion = habitacion;
         this.fechaIngreso = fechaIngreso;
         this.cantidadNoches = cantidadNoches;
@@ -26,12 +28,12 @@ public class Reserva {
         this.codigoReserva = codigoReserva;
     }
 
-    public Huesped[] getHuespedes() {
-        return huespedes;
+    public String[] getIdHuespedes() {
+        return idHuespedes;
     }
 
-    public void setHuespedes(Huesped[] huespedes) {
-        this.huespedes = huespedes;
+    public void setIdHuespedes(String[] idHuespedes) {
+        this.idHuespedes = idHuespedes;
     }
 
     public Habitacion getHabitacion() {
@@ -56,5 +58,16 @@ public class Reserva {
 
     public void setCantidadNoches(int cantidadNoches) {
         this.cantidadNoches = cantidadNoches;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "codigoReserva='" + codigoReserva + '\'' +
+                ", idHuespedes=" + Arrays.toString(idHuespedes) +
+                ", habitacion=" + habitacion +
+                ", fechaIngreso=" + fechaIngreso +
+                ", cantidadNoches=" + cantidadNoches +
+                '}';
     }
 }

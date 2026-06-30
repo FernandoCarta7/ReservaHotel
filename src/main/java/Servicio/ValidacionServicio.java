@@ -1,6 +1,9 @@
 package Servicio;
 
+import entidades.Huesped;
+
 import java.util.Scanner;
+import java.util.Vector;
 
 public class ValidacionServicio {
 
@@ -9,9 +12,9 @@ public class ValidacionServicio {
     public String validarNumeroIdentificacion(){
         String numero = "";
         do {
-            System.out.println("Ingrese un número de identificación valido " +
-                    "\nQue NO contenga letras " +
-                    "\nQue su longitud sea igual a 10");
+            System.out.println("\tIngrese un número de identificación valido " +
+                    "\n\t\tQue NO contenga letras " +
+                    "\n\t\tQue su longitud sea igual a 10");
             numero = scanner.nextLine();
         } while ( !(numero != null && numero.matches("\\d{10}")) );
 
@@ -37,9 +40,9 @@ public class ValidacionServicio {
     public String validarTelefono(){
         String numero = "";
         do {
-            System.out.println("Ingrese un número de telefono valido " +
-                    "\nQue NO contenga letras " +
-                    "\nQue su longitud sea igual a 10");
+            System.out.println("\tIngrese un número de telefono valido " +
+                    "\n\t\tQue NO contenga letras " +
+                    "\n\t\tQue su longitud sea igual a 10");
             numero = scanner.nextLine();
         } while ( !(numero != null && numero.matches("\\d{10}")) );
 
@@ -54,9 +57,9 @@ public class ValidacionServicio {
 
             System.out.println("Ingrese un correo valido" +
                     "\n\t FORMATO VALIDO: ejemplo@correo.com");
+            correo = scanner.nextLine();
 
-
-        } while ((   correo != null &&
+        } while ( !( correo != null &&
                 correo.matches(
                         "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
         )
@@ -102,4 +105,28 @@ public class ValidacionServicio {
 
         return tipoDeHabitacion[posicion - 1].toUpperCase();
     }
+
+    public String validarCargo(){
+        boolean bandera = true;
+        int opcion = -1;
+        String [] cargos = {"ADMINISTRADOR","LIMPIEZA","RECEPCIONISTA","CONCERJE","COCINA"} ;
+        do {
+            System.out.println("\t\tIngrese opcion [ 1 - 5 ] del empleado: " +
+                    "\n1. ADMINISTRADOR" +
+                    "\n2. LIMPIEZA" +
+                    "\n3. RECEPCIONISTA" +
+                    "\n4. CONCERJE" +
+                    "\n5. COCINA");
+            opcion = scanner.nextInt();
+            if (opcion > 0 && opcion <= cargos.length ) {
+                bandera = false;
+            }
+        }while ( bandera );
+
+
+
+        return cargos[opcion - 1];
+    }
+
+
 }

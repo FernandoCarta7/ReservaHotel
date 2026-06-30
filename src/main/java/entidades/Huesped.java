@@ -17,6 +17,7 @@ public class Huesped extends Persona {
         return isVIP;
     }
 
+
     public void setVIP(boolean VIP) {
         isVIP = VIP;
     }
