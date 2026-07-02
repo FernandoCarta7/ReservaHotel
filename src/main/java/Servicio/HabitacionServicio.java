@@ -1,6 +1,5 @@
 package Servicio;
 
-import entidades.Empleado;
 import entidades.Habitacion;
 
 import java.util.Scanner;
@@ -61,6 +60,48 @@ public class HabitacionServicio {
         }
 
         return null; // No encontrado
+    }
+
+
+    public int buscarPorNumeroIndice(Vector <Habitacion> habitaciones, short numeroHabitacion) {
+
+        int izquierda = 0;
+        int derecha = habitaciones.size() - 1;
+        short comparacion;
+        while (izquierda <= derecha) {
+            int medio = izquierda + (derecha - izquierda) / 2;
+
+            comparacion = habitaciones.get(medio).getNumeroHabitacion();
+
+            if (comparacion == numeroHabitacion) {
+                return medio;
+            } else if (comparacion < 0) {
+                izquierda = medio + 1;
+            } else {
+                derecha = medio - 1;
+            }
+        }
+
+        return -1; // No encontrado
+    }
+
+    public void imprimirHabitacionesDisponible(Vector <Habitacion> habitaciones){
+        habitaciones.sort( (a,b) -> Boolean.compare( a.estaDisponible(), b.estaDisponible() ) );
+        int indice = 0;
+        while ( habitaciones.get(indice).estaDisponible() ) {
+            System.out.println(habitaciones.get(indice).toString());
+            indice = indice + 1;
+        }
+    }
+
+    public void imprimirHabitacionesNODisponible(Vector <Habitacion> habitaciones){
+        habitaciones.sort( (a,b) -> Boolean.compare(  b.estaDisponible(), a.estaDisponible() ) );
+        int indice = 0;
+        while ( !habitaciones.get(indice).estaDisponible() ) {
+
+            System.out.println(habitaciones.get(indice).toString());
+            indice = indice + 1;
+        }
     }
     
 }

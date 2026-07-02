@@ -128,5 +128,16 @@ public class ValidacionServicio {
         return cargos[opcion - 1];
     }
 
+    public int validarCantidadNoches(){
+        int noches = -1;
+
+        do {
+            System.out.println("<----------INGRESE CANTIDAD DE NOCHES---------->\n<----------RANGO PERMITIDO [ 1 - 7 ]---------->");
+            noches = scanner.nextInt();
+        }while ( noches > 0 && noches < 7);
+
+        return noches;
+    }
+
 
 }

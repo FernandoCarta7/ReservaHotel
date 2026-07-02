@@ -1,10 +1,8 @@
-import Servicio.EmpleadoServicio;
-import Servicio.HabitacionServicio;
-import Servicio.HuespedServicio;
-import Servicio.ValidacionServicio;
+import Servicio.*;
 import entidades.Empleado;
 import entidades.Habitacion;
 import entidades.Huesped;
+import entidades.Reserva;
 
 public static void main() {
     int opcion = -1;
@@ -18,13 +16,22 @@ public static void main() {
     int indiceEmpleadoActualizar = -1;
     //HABITACIONES
     HabitacionServicio habitacionServicio = new HabitacionServicio();
-    Vector<Habitacion> habitaciones = new Vector<>();
+    Vector<Habitacion> listadoHabitaciones = new Vector<>();
+    Habitacion buscarHabitacion = null;
+    short numeroHab = 0;
+    int indiceHabitacion;
 
     //HUESPEDES
     HuespedServicio huespedServicio = new HuespedServicio();
     Vector<Huesped> listadoHuespedes = new Vector<>();
     String numeroDocumentoHuesped = "";
+    Habitacion habitacion = null;
     int indiceHuespedActualizar = -1;
+
+    //RESERVAS
+    ReservaServicio reservaServicio = new ReservaServicio();
+    Vector<Reserva> reservas = new Vector<>();
+    Reserva reserva = null;
 
 
     ValidacionServicio validacionServicio = new ValidacionServicio();
@@ -49,8 +56,8 @@ public static void main() {
             "\n\t14. Registrar reserva" +
             "\n\t15. Consultar reservas" +
             "\n\t16. Buscar reservas por codigo" +
-            "\n\t17. Cancelar resesrva" +
-            "\n\t18. Finalizar reservas";
+            "\n\t17. Cancelar reserva" +
+            "\n\t18. Salir";
 
 
     do {
@@ -113,42 +120,129 @@ public static void main() {
                 break;
 
             case 8:
+                empleadoServicio.imprimirEmpleado(listadoEmpleados);
+                System.out.println("Ingrese posicion del empleados ");
+                indiceEmpleadoActualizar = scanner.nextInt();
+                indiceHuespedActualizar--;
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1).setNombreCompleto(validacionServicio.validarNombre());
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1).setTelefono(validacionServicio.validarTelefono());
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1).setCorreo(validacionServicio.validarCorreo());
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1).setNumeroIdentificacion(validacionServicio.validarNumeroIdentificacion());
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1 ).setSalario( validacionServicio.validarSalario() );
+                listadoEmpleados.get(indiceEmpleadoActualizar - 1).setCargo(validacionServicio.validarCargo());
+
+                listadoEmpleados.sort((a,b)-> a.getNumeroIdentificacion().compareTo(b.getNumeroIdentificacion()));
 
                 break;
             case 9:
 
+                String tipo = validacionServicio.validarTipoHabitacion();
+                boolean estaDisponible = true;
+                habitacion = new Habitacion(tipo,estaDisponible);
+                listadoHabitaciones.add(habitacion);
+
                 break;
 
             case 10:
-
+                //HABITACIONES DISPONIBLES
+                habitacionServicio.imprimirHabitacionesDisponible(listadoHabitaciones);
                 break;
             case 11:
-
+                //HABITACIONES DISPONIBLES
+                habitacionServicio.imprimirHabitacionesNODisponible(listadoHabitaciones);
                 break;
 
             case 12:
-
+                listadoHabitaciones.sort( (a,b ) -> Short.compare(a.getNumeroHabitacion(), b.getNumeroHabitacion())  );
+                System.out.println("Ingrese el numero de habitacion a buscar: ");
+                numeroHab = scanner.nextShort();
+                buscarHabitacion= habitacionServicio.buscarPorNumero(listadoHabitaciones, numeroHab);
+                System.out.println(buscarHabitacion.toString());
                 break;
             case 13:
-
+                //Cambiar el estado de una habitacion
+                System.out.println("Ingrese el numero de habitacion a cambiar estado: ");
+                numeroHab = scanner.nextShort();
+                indiceHabitacion= habitacionServicio.buscarPorNumeroIndice(listadoHabitaciones, numeroHab);
+                if (indiceHabitacion == -1) System.out.println("Habitacion no encontrada");
+                else if (listadoHabitaciones.get(indiceHabitacion).estaDisponible())
+                    listadoHabitaciones.get(indiceHabitacion).setEstaDisponible(false);
+                else
+                    listadoHabitaciones.get(indiceHabitacion).setEstaDisponible(true);
+                System.out.println("Estado cambiado: \n " + listadoHabitaciones.get(indiceHabitacion).toString());
                 break;
 
             case 14:
+                //REGISTRAR RESERVA
+                if (listadoHuespedes.isEmpty()) System.out.println("NO HAY HUESPEDES REGISTRADOS, DEBE REGISTRAR PRIMERO UN HUESPED");
+                if ( listadoHabitaciones.isEmpty() ) System.out.println("NO HAY HABITACIONES REGISTRADAS, DEBE REGISTRAR PRIMERO AL MENOS UNA HABITACION");
+                boolean hayMasHuesped = false;
+                Vector<Huesped> huespedesReserva = new Vector<>();
+                huespedServicio.imprimirHuesped(listadoHuespedes);
+                short cantidadHuespedes = 0;
 
+                do {
+                    //Registro de huesped
+                    System.out.println("*****\t\tIngrese numero de documento del huesped para la reserva:\t\t*****");
+                    numeroDocumentoHuesped = validacionServicio.validarNumeroIdentificacion();
+
+                    Huesped huesped = huespedServicio.buscarPorDocumento(listadoHuespedes, numeroDocumentoHuesped);
+                    huespedesReserva.add(huesped);
+                    cantidadHuespedes++;
+
+
+
+                    System.out.println("Desea ingresar otro huesped? \n\tS.\tSi \n\t N.\tNo");
+                    String respuesta = scanner.nextLine().toUpperCase();
+                    respuesta = respuesta.substring(0,1);
+                    if (respuesta.compareTo("S") == 0) hayMasHuesped = true;
+                    else hayMasHuesped = false;
+
+                }while (hayMasHuesped && cantidadHuespedes < 6);
+
+
+
+
+                //Registro de habitacion
+                System.out.println("*****\t\tIngrese numero de habitacion para la reserva:\t\t*****");
+                habitacionServicio.imprimirHabitacionesDisponible(listadoHabitaciones);
+                numeroHab = scanner.nextShort();
+                Habitacion habitacionReserva = habitacionServicio.buscarPorNumero(listadoHabitaciones, numeroHab);
+                int cantidadNoches = validacionServicio.validarCantidadNoches();
+
+                reserva = new Reserva(huespedesReserva, habitacionReserva, LocalDate.now(),cantidadNoches);
+                reservas.add(reserva);
                 break;
             case 15:
-
+                reservaServicio.imprimirReservas(reservas);
                 break;
 
             case 16:
-
+                //BUSCAR RESERVA POR CODIGO
+                reservaServicio.imprimirReservas(reservas);
+                System.out.println("Ingrese el codigo de reserva: ");
+                String codigoReservaBuscar = scanner.nextLine();
+                reservas.sort((a,b) ->a.getCodigoReserva().compareTo(b.getCodigoReserva()));
+                reservaServicio.buscarPorCodigo(reservas,codigoReservaBuscar);
                 break;
             case 17:
-
+                //CANCELAR RESERVA
+                reservaServicio.imprimirReservas(reservas);
+                System.out.println("Ingrese el codigo de reserva a cancelar: ");
+                String codigoReservaCancelar = scanner.nextLine();
+                reservas.sort((a,b) ->a.getCodigoReserva().compareTo(b.getCodigoReserva()));
+                int indiceCancelarReserva = reservaServicio.buscarPorNumeroIndice(reservas,codigoReservaCancelar);
+                if (indiceCancelarReserva != -1 ) {
+                    short habitacionCancelar = reservas.get(indiceCancelarReserva).getHabitacion().getNumeroHabitacion();
+                    int indiceHabCancelar = habitacionServicio.buscarPorNumeroIndice(listadoHabitaciones,habitacionCancelar);
+                    listadoHabitaciones.get(indiceHabCancelar).setEstaDisponible(true);
+                    reservas.remove(indiceCancelarReserva);
+                }
                 break;
 
             case 18:
-
+                System.out.println("Hasta luego");
+                opcion = -1;
                 break;
             default:
                 System.out.println(mensajeOpcionInvalida);

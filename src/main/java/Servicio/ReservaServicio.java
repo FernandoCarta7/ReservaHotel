@@ -38,6 +38,11 @@ public class ReservaServicio {
         System.out.println(reserva.toString());
     }
 
+    public void imprimirReservas(Vector<Reserva> reservas) {
+        for (int i = 0; i < reservas.size(); i++) {
+            imprimirReserva(reservas.get(i));
+        }
+    }
 
     public String generarCodigoReserva(String tipoHabitacion, String idHuesped){
         String codigo = "";
@@ -51,5 +56,47 @@ public class ReservaServicio {
     }
 
 
+    public Reserva buscarPorCodigo(Vector <Reserva> reservas, String codigoReserva) {
 
+        int izquierda = 0;
+        int derecha = reservas.size() - 1;
+        String comparacion;
+        while (izquierda <= derecha) {
+            int medio = izquierda + (derecha - izquierda) / 2;
+
+            comparacion = reservas.get(medio).getCodigoReserva();
+
+            if (comparacion.compareTo(codigoReserva) == 0) {
+                return reservas.get(medio);
+            } else if (comparacion.compareTo(codigoReserva) < 0) {
+                izquierda = medio + 1;
+            } else {
+                derecha = medio - 1;
+            }
+        }
+
+        return null; // No encontrado
+    }
+
+    public int buscarPorNumeroIndice(Vector <Reserva> reservas, String codigoReserva) {
+
+        int izquierda = 0;
+        int derecha = reservas.size() - 1;
+        String comparacion;
+        while (izquierda <= derecha) {
+            int medio = izquierda + (derecha - izquierda) / 2;
+
+            comparacion = reservas.get(medio).getCodigoReserva();
+
+            if (comparacion.compareTo(codigoReserva) == 0 ) {
+                return medio;
+            } else if (comparacion.compareTo(codigoReserva) < 0) {
+                izquierda = medio + 1;
+            } else {
+                derecha = medio - 1;
+            }
+        }
+
+        return -1; // No encontrado
+    }
 }
